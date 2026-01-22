@@ -28,6 +28,10 @@ jobs:
           --region ${{ secrets.AWS_REGION }} \
           --name ${{ secrets.EKS_CLUSTER_NAME }}
 
-    - name: Deploy to Kubernetes
+    - name: Build and push Docker image
+  run: |
+    docker build -t kondetikumar/fastapi:${{ github.sha }} .
+    docker push kondetikumar/fastapi:${{ github.sha }}
+
       run: |
         kubectl apply -f k8s/
